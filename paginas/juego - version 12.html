@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batalla de robots</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <h1>Batalla de robots</h1>
+    <table id="tablaJugadores">
+
+    </table>
+    <div class="contenedor">
+        <div class="objeto"><button id="btnPregunta">Pregunta</button><button id="btnFinalizar">Finalizar partida</button>
+        </div>
+      </div>
+    
+    
+    <script>
+        const jugadores = [
+            { nombre: 'Robot Diego', avatar: 'imagenes/Diego.png', puntos: 100, puntosTotales: 0, puntosComodin: 5 },
+            { nombre: 'Robot Emma', avatar: 'imagenes/Emma.png', puntos: 200, puntosTotales: 0, puntosComodin: 5 },
+            { nombre: 'Robot Hector', avatar: 'imagenes/Hector.png', puntos: 150, puntosTotales: 0, puntosComodin: 5 },
+            { nombre: 'Robot Hugo', avatar: 'imagenes/Hugo.png', puntos: 100, puntosTotales: 0, puntosComodin: 5 },
+            { nombre: 'Robot Joel', avatar: 'imagenes/Joel.png', puntos: 200, puntosTotales: 0, puntosComodin: 5 },
+            { nombre: 'Robot Lucas', avatar: 'imagenes/Lucas.png', puntos: 150, puntosTotales: 0, puntosComodin: 5 },
+            { nombre: 'Robot Samuel', avatar: 'imagenes/Samuel.png', puntos: 150, puntosTotales: 0, puntosComodin: 5 },
+            { nombre: 'Robot Sonia', avatar: 'imagenes/Sonia.png', puntos: 200, puntosTotales: 0, puntosComodin: 5 },
+            { nombre: 'Robot Yago', avatar: 'imagenes/Yago.png', puntos: 150, puntosTotales: 0, puntosComodin: 5 },
+            { nombre: 'Robot Zhijian', avatar: 'imagenes/Zhijian.png', puntos: 150, puntosTotales: 0, puntosComodin: 5 },
+            // Agrega más jugadores aquí
+        ];
+
+        const acciones = [
+            'Incógnita definida',
+            'Ecuación completa',
+            'Apoyo',
+            'Comodín del público',
+            'Comodín suma',
+            'Comodín división',
+        ];
+
+        const botonesInfo = [
+            { incremento: 0.5 },
+            { incremento: 1 },
+            { incrementoComodin: 1 },
+            { incrementoComodin: -1 },
+            { incrementoComodin: -0.5, ventanaEmergente: 'suma.html' },
+            { incrementoComodin: -0.5, ventanaEmergente: 'multiplicacion.html'},
+        ];
+
+        function abrirVentanaEmergente(url) {
+            const ancho = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const alto = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+            window.open(url, '_blank', `width=${ancho},height=${alto}`);
+        }
+
+        function crearTabla() {
+            const tabla = document.getElementById('tablaJugadores');
+            // Crear filas para avatares, nombres, puntos totales, puntos comodín y acciones
+            const filaAvatar = document.createElement('tr');
+            const filaNombre = document.createElement('tr');
+            const filaPuntosTotales = document.createElement('tr');
+            const filaPuntosComodin = document.createElement('tr');
+            const filasAcciones = acciones.map(() => document.createElement('tr'));
+
+            // Agregar descripciones en la primera columna
+            const celdaDescripcionAvatar = document.createElement('td');
+            celdaDescripcionAvatar.textContent = 'Avatar';
+            celdaDescripcionAvatar.title = 'Esta casilla muestra la imagen del jugador';
+            filaAvatar.appendChild(celdaDescripcionAvatar);
+
+            const celdaDescripcionNombre = document.createElement('td');
+            celdaDescripcionNombre.textContent = 'Jugador';
+            celdaDescripcionNombre.title = 'Esta casilla muestra el nombre del jugador';
+            filaNombre.appendChild(celdaDescripcionNombre);
+
+            const celdaDescripcionPuntosTotales = document.createElement('td');
+            celdaDescripcionPuntosTotales.textContent = 'Puntos totales';
+            celdaDescripcionPuntosTotales.title = 'Esta casilla muestra los puntos totales del jugador';
+            filaPuntosTotales.appendChild(celdaDescripcionPuntosTotales);
+
+            const celdaDescripcionPuntosComodin = document.createElement('td');
+            celdaDescripcionPuntosComodin.textContent = 'Puntos comodín';
+            celdaDescripcionPuntosComodin.title = 'Esta casilla muestra los puntos comodín del jugador';
+            filaPuntosComodin.appendChild(celdaDescripcionPuntosComodin);
+
+
+            
+            for (const jugador of jugadores) {
+                // Crear celdas para la propiedad 'Avatar'
+                const celdaAvatar = document.createElement('td');
+                const imagenAvatar = document.createElement('img');
+                imagenAvatar.src = jugador.avatar;
+                imagenAvatar.width = 100;
+                imagenAvatar.height = 100;
+                celdaAvatar.appendChild(imagenAvatar);
+
+                // Crear celdas para la propiedad 'Nombre'
+                const celdaNombre = document.createElement('td');
+                celdaNombre.textContent = jugador.nombre;
+
+                const celdaPuntosTotales = document.createElement('td');
+                celdaPuntosTotales.textContent = jugador.puntosTotales;
+
+                const celdaPuntosComodin = document.createElement('td');
+                celdaPuntosComodin.textContent = jugador.puntosComodin;
+
+                filaAvatar.appendChild(celdaAvatar);
+                filaNombre.appendChild(celdaNombre);
+                filaPuntosTotales.appendChild(celdaPuntosTotales);
+                filaPuntosComodin.appendChild(celdaPuntosComodin);
+
+                for (let i = 0; i < acciones.length; i++) {
+                    const celdaBoton = document.createElement('td');
+                    const boton = document.createElement('button');
+                    switch (i) {
+                case 0:
+                    boton.textContent = "+0.5 (T)";
+                    break;
+                case 1:
+                    boton.textContent = "+1 (T)";
+                    break;
+                case 2:
+                    boton.textContent = "+1 (C)";
+                    break;
+                case 3:
+                    boton.textContent = "-1 (C)";
+                    break;
+                case 4:
+                    boton.textContent = "-0.5 (C)";
+                    break;
+                case 5:
+                    boton.textContent = "-0.5 (C)";
+                    break;
+            }
+            boton.style.fontSize = '0.5em';
+                    boton.onclick = () => {
+                        if (botonesInfo[i].incremento) {
+                            jugador.puntosTotales += botonesInfo[i].incremento;
+                            celdaPuntosTotales.textContent = jugador.puntosTotales;
+                        }
+                        if (botonesInfo[i].incrementoComodin) {
+                            jugador.puntosComodin += botonesInfo[i].incrementoComodin;
+                            celdaPuntosComodin.textContent = jugador.puntosComodin;
+                        }
+                        if (botonesInfo[i].ventanaEmergente) {
+        abrirVentanaEmergente(botonesInfo[i].ventanaEmergente);
+    }
+                    };
+                    celdaBoton.appendChild(boton);
+                    filasAcciones[i].appendChild(celdaBoton);
+                }
+            }
+
+            // Agregar descripciones de acciones en la primera columna
+            for (let i = 0; i < acciones.length; i++) {
+                const celdaAccion = document.createElement('td');
+                celdaAccion.textContent = acciones[i];
+                filasAcciones[i].insertBefore(celdaAccion, filasAcciones[i].firstChild);
+            }
+
+                      // Agregar las filas a la tabla
+                      tabla.appendChild(filaAvatar);
+            tabla.appendChild(filaNombre);
+            tabla.appendChild(filaPuntosTotales);
+            tabla.appendChild(filaPuntosComodin);
+            filasAcciones.forEach(fila => tabla.appendChild(fila));
+        }
+
+        crearTabla();
+        const btnPregunta = document.getElementById('btnPregunta');
+        btnPregunta.addEventListener('click', () => {
+            abrirVentanaEmergente('pregunta.html');
+        });
+
+        function guardarResultados() {
+    localStorage.setItem('jugadores', JSON.stringify(jugadores));
+}
+
+const btnFinalizar = document.getElementById('btnFinalizar');
+btnFinalizar.addEventListener('click', () => {
+    guardarResultados();
+    abrirVentanaEmergente('resultados.html');
+});
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RoboVigoWars2052</title>
+	<style>
+		body {
+			background-image: url("paginas/imagenes/fondo.png");
+			background-size: cover;
+			background-position: center;
+			font-family: Arial, sans-serif;
+			color: white;
+			text-align: center;
+			padding-top: 100px;
+		}
+		h1 {
+			font-size: 40px;
+			margin-bottom: 50px;
+		}
+		button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 20px;
+			border: none;
+			border-radius: 5px;
+			font-size: 24px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		button:hover {
+			background-color: #3E8E41;
+		}
+		#helpBtn {
+			position: fixed;
+			bottom: 20px;
+			right: 20px;
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px;
+			border: none;
+			border-radius: 50%;
+			font-size: 18px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		#helpBtn:hover {
+			background-color: #3E8E41;
+		}
+	</style>
+	<script>
+		function openInstructions() {
+			window.open('paginas/instrucciones.html', '_blank', 'width=800,height=600');
+		}
+	</script>
+	
+</head>
+<body>
+	<h1>Santa Irene...año 2052, la guerra cibernética robótica se lucha con procesos computacionales basados en ecuaciones y expresiones algebraicas</h1>
+	<button onclick="location.href='paginas/juego - version 12.html'">Entrar</button>
+	<button id="helpBtn" onclick="openInstructions()">?</button>
+</body>
+</html>

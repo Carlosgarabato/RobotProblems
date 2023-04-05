@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de barras</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="estilosgrafica.css">
+</head>
+<body>
+    <h1>Gráfico de barras - Resultados Batalla de robots</h1>
+    <canvas id="barChart"></canvas>
+    <script>
+        // Obtén los datos de los jugadores desde el localStorage
+const jugadores = JSON.parse(localStorage.getItem('jugadores'));
+
+// Crear arrays para los nombres, puntos totales y puntos comodín
+const nombres = jugadores.map(jugador => jugador.nombre);
+const puntosTotales = jugadores.map(jugador => jugador.puntosTotales);
+const puntosComodin = jugadores.map(jugador => jugador.puntosComodin);
+
+// Crear el gráfico de barras
+const ctx = document.getElementById('barChart').getContext('2d');
+const barChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: nombres,
+        datasets: [
+            {
+                label: 'Puntos totales',
+                data: puntosTotales,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Puntos comodín',
+                data: puntosComodin,
+                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 1
+            }
+        ]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+    </script>
+</body>
+</html>

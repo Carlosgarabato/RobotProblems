@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados Batalla de robots</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <h1>Resultados Batalla de robots</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Avatar</th>
+                <th>Jugador</th>
+                <th>Puntos totales</th>
+                <th>Puntos comodín</th>
+                <th>Puntuación final</th>
+               
+            </tr>
+        </thead>
+        <tbody id="resultados">
+        </tbody>
+    </table>
+    <button onclick="abrirGrafica()">Ver gráfica</button>
+    <script>
+        function mostrarResultados() {
+            const resultados = document.getElementById('resultados');
+            const jugadores = JSON.parse(localStorage.getItem('jugadores'));
+
+            jugadores.sort((a, b) => (b.puntosTotales + b.puntosComodin) - (a.puntosTotales + a.puntosComodin));
+
+            for (const jugador of jugadores) {
+                const fila = document.createElement('tr');
+
+                const celdaAvatar = document.createElement('td');
+                const imagenAvatar = document.createElement('img');
+                imagenAvatar.src = jugador.avatar;
+                imagenAvatar.width = 200;
+                imagenAvatar.height = 200;
+                celdaAvatar.appendChild(imagenAvatar);
+                fila.appendChild(celdaAvatar);
+
+                const celdaNombre = document.createElement('td');
+                celdaNombre.textContent = jugador.nombre
+                fila.appendChild(celdaNombre);
+
+const celdaPuntosTotales = document.createElement('td');
+celdaPuntosTotales.textContent = jugador.puntosTotales;
+fila.appendChild(celdaPuntosTotales);
+
+const celdaPuntosComodin = document.createElement('td');
+celdaPuntosComodin.textContent = jugador.puntosComodin;
+fila.appendChild(celdaPuntosComodin);
+
+const celdaPuntuacionFinal = document.createElement('td');
+        celdaPuntuacionFinal.textContent = jugador.puntosTotales + jugador.puntosComodin;
+        fila.appendChild(celdaPuntuacionFinal);
+
+resultados.appendChild(fila);
+localStorage.setItem('jugadores', JSON.stringify(jugadores));
+}
+}
+
+mostrarResultados();
+function abrirGrafica() {
+    const ancho = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const alto = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    window.open('barras.html', '_blank', `width=${ancho},height=${alto}`);
+}
+</script>
+</body>
+</html>
+

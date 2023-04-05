@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccionar pregunta y jugador al azar</title>
+    <link rel="stylesheet" href="estilos.css">
+    </style>
+  </head>
+  <body>
+    <h1>Presiona el botón para seleccionar una pregunta o un jugador al azar:</h1>
+    <button onclick="seleccionarPregunta()">Seleccionar pregunta</button>
+    <button onclick="seleccionarJugador()">Seleccionar jugador</button>
+   
+    <div id="pregunta-elegida"></div>
+    <div id="avatar-elegido"></div>
+    <div id="nombre-avatar"></div>
+    
+    <h2>Selecciona una pregunta o un jugador manualmente:</h2>
+    <select id="seleccionar-pregunta" onchange="mostrarPreguntaSeleccionada()">
+      <option value="">Selecciona una pregunta</option>
+    </select>
+    <select id="seleccionar-jugador" onchange="mostrarJugadorSeleccionado()">
+      <option value="">Selecciona un jugador</option>
+    </select>
+    <h2>Temporizador:</h2>
+    <button id="botonB">30s</button>
+    <script>
+      var preguntas = ["49) Max ha comprado 1 kg de mangos, 1 kg de manzanas y 1kg de peras y ha pagado 12 €. El kilogramo de mangos cuesta el doble que el de manzanas y este último vale el triple que el de peras. Calcula el precio de un kilogramo de cada fruta.", 
+      "50) La suma de las edades de Alberto, Bea y Daniel es de 69 años. La edad de Alberto es el doble de la de Bea y seis años mayor que la de Daniel. ¿Cuales son las edades de cada uno?", 
+      "51) Pedro tiene 37 canicas más que Dani y la suma de las canicas que tienen entre los dos es de 143. ¿Cuantas canicas tiene cada uno?", 
+      "52) Jose y sus amigos fueron de excursión. El primer día anduvieron 5 km más que el segundo, y el tercero, el doble que el primer día. En total han recorrido 59 km. Calcula qué distancia han recorrido cada día.", 
+      "53) Un camión de ayuda humanitaria lleva a un campo de refugiados 250 sacos de harina de trigo y de maíz. Hay 20 sacos más de harina de maíz que de trigo. ¿Cuántos hay de cada uno?", 
+      "55) En una bolsa hay bolas azules, blancas y rojas. El número de bolas rojas es igual al de bolas blancas más 14, y hay 6 bolas azules menos que blancas. Si en total hay 98 bolas, halla cuántas bolas hay de cada color.", 
+      "56) La edad de Juliana es tres veces la de su hermano David. En cuatro años, la suma de sus edades será igual a la mitad de la del padre en ese momento. Su padre tiene ahora 52 años. ¿Que edad tienen ahora Juliana y su hermano?", 
+      "57) El día del libro, Liliana compra cinco libros en una librería: cuatro libros del mismo título de tapa dura y uno de bolsillo. En la factura la vendedora olvida escribir el coste de los libros de tapa dura. ¿Cómo se puede determinar el coste de cada libro de tapa dura si el coste total fue de 163 € y el libro de bolsillo costó 15 €?", 
+      "58) Carlos tiene dos hermanas gemelas y las edades de los tres suman 43 años. Si él tiene 11 años, ¿qué edad tienen sus hermanas?", 
+      "59) Tres ONG atienden a los refugiados de un campo en un país en vías de desarrollo. La primera atiende a 2/5 del total de refugiados, la segunda atiende a 1/5 del total y la tercera a 160 personas. Calcula el número total de refugiados y a cuantos refugiados atiende cada ONG.", 
+      "60) Una empresa de telefonía ofrece un plan local que incluye 250 minutos con un coste de 23 €. Después de consumir los 250 minutos, el coste del minuto adicional es de 0,05 €. Una familia pagó 29 €. Averigua cuantos minutos adicionales consumió.", 
+      "61) Hace dos años la edad de Marta era cuatro veces la de David, y dentro de ocho años la suma de sus edades será 70 años. ¿Qué edad tiene cada uno?", 
+      "62) Un examen de matemáticas consta de 10 preguntas. Por cada respuesta correcta se suman 10 puntos y por cada respuesta incorrecta se quitan 3. Si Ana contestó todas las preguntas y obtuvo 61 puntos, ¿cuál fue el número de respuestas correctas de Ana?", 
+      "5) El doble de un número más su mitad es lo mismo que sumarle 3 a ese número ¿qué número es?", 
+      "6) Encuentra un número tal que 3 más los dos tercios de dicho número sea igual a la mitad del propio número.", 
+      "7) Si a un número le sumas 7, obtienes el triple que si le restas 5 ¿Qué número es?", 
+      "8) La suma de dos número es de 104 y el mayor excede al menor en 52. Halla los números", 
+      "13) La suma de dos números es 100 y el doble del mayor equivale al triple del menor. ¿Cuáles son los números?", 
+      "15) Dentro de 8 años, Manuela tendrá el triple de años que su hija y la suma de sus edades en ese momento será 48 años. Calcula la edad actual de cada una.", 
+      "16) Ana tiene el doble de lápices menos que Cris. Pau tiene 13 lápices más que Jon. Entre todos tienen 88 lápices. ¿Cuántos tiene cada uno?", 
+      "17) Ester y Ramón han recorrido, en total, 275 km del camino de Santiago. El primer día recorrieron 25 km más que el segundo, y el tercero, el doble de kilómetros que el primero. Calcula la distancia recorrida cada día.", 
+      "22) En un concierto hay entradas de 12 € y entradas de 8 €. Un día han vendido 157 entradas y la recaudación ha sido de 1624 € ¿Cuántas entradas han vendido de cada tipo?", 
+      "23) Dos kilos de naranjas cuestan lo mismo que un kilo de plátanos. Juan ha comprado 3 kg de plátanos y 4 kg de naranjas y ha pagado 15 €. ¿Cuanto cuesta cada fruta?", 
+      "25) El patrocinador de un equipo deportivo juvenil se ha gastado 735 € en la compra de la equipación de los 15 jugadores. Si una camiseta cuesta 3 € más que un pantalón, ¿cuánto cuesta cada prenda?", 
+      "26) La edad de Luna es el doble de la de Lola, y ambas edades suman 36 años. ¿Cuales son las edades de Luna y Lola?", 
+      "27) Marcos ha gastado 205 € en comprar 20 paquetes de folios y 15 carpetas para su oficina. Si una carpeta cuesta 2 € más que un paquete de folios, ¿cuánto cuesta una carpeta?¿Y un paquete de folios?", 
+      "29) Un concurso consta de 25 preguntas. Por cada respuesta acertada dan 5 puntos, y por cada respuesta fallada o no contestada quitan 3 puntos. Si Sergio contestó todas y obtuvo 53 puntos, ¿qué cantidad de respuestas correctas obtuvo?", 
+      "30) En un campamento de verano hay 7 chicos por cada monitor. Si en total hay 56 personas, ¿cuántos chicos y cuántos monitores hay?", 
+      "31) El tío de Valentina tiene seis veces la edad de su sobrina. Valentina tiene 8 años. ¿Cuántos años han de pasar para que la edad del tío sea el triple de la de su sobrina?", 
+      "32) Un padre tiene actualmente cuatro veces la edad de su hijo. Cuando pasen cinco años, su edad solo será tres veces superior. ¿Que edad tiene cada uno?", 
+      "34) Un litro de zumo cuesta como tres litros de leche. Maria ha comprado 2 L de zumo y 5 L de leche y ha pagado 11 €. ¿Que precio tiene el zumo?¿Y la leche?", 
+      "35) Miguel mete en su hucha todas las monedas de 2 € y de 50 céntimos de euro que consigue. Si ya tiene 32 monedas que hacen 32,5 €, ¿cuántas monedas tiene de cada tipo?", 
+      "36) Renata leyó la semana pasada tres quintas partes del libro que le regalaron en Navidad. Mañana tiene intención de leer una cuarta parte más. Después de hacerlo aún le faltarán 30 páginas para terminarlo, ¿cuántas páginas en total tiene su libro?", 
+      "37) La edad de Elisa es la tercera parte de la de su madre. Dentro de 15 años, la madre de Elisa tendrá el doble de edad que ella ¿Cuántos años tiene ahora cada una?", 
+      "39) Germán tiene perros y pájaros en su finca, siendo 24 el número total de sus patas. ¿Cuántos perros tiene Germán, si en total tiene 9 animales?", 
+      "41) La edad de un padre de familia es el triple que la de su hijo y, dentro de 16, solo será el doble. ¿Cuántos años tiene cada uno?", 
+      "Ejercicio 2: En el instituto Santa Irene hay 500 alumnos. El número de chicas es el triple que el de chicos. ¿Cuántos chicos y cuántas chicas hay en el instituto? ", 
+      "Ejercicio 5: En una partida de Fortnite hay 100 jugadores. El número de jugadores que usan el traje de astronauta es el doble que el de los que usan el traje de payaso. ¿Cuántos jugadores hay de cada tipo? ", 
+      "Ejercicio 10: En una partida de Fortnite hay dos tipos de armas: las escopetas y los rifles. Las escopetas tienen una capacidad de carga de 8 balas y los rifles de 30. Un jugador tiene un total de 10 armas con un total de 200 balas. ¿Cuántas armas tiene de cada tipo?", 
+      "Un youtuber gana 5 euros por cada 1000 visitas que tiene en sus vídeos. Si quiere ganar al menos 100 euros este mes, ¿cuántas visitas necesita tener en total?",
+      "Un jugador de Fortnite tiene 300 paVos (la moneda del juego) y quiere comprar un traje que cuesta 1200 paVos. Si cada paVo vale 0,01 euros, ¿cuánto dinero tiene que gastar para comprar el traje?"];
+
+      var preguntasManual = [...preguntas]; // Crear una copia de las preguntas para la selección manual
+
+      var avatares = [
+        {nombre: "Robot Diego", rutaImagen: 'imagenes/Diego.png'},
+        {nombre: "Robot Emma", rutaImagen: 'imagenes/Emma.png'},
+        {nombre: "Robot Hector", rutaImagen: 'imagenes/Hector.png'},
+        {nombre: "Robot Hugo", rutaImagen: 'imagenes/Hugo.png'},
+        {nombre: "Robot Joel", rutaImagen: 'imagenes/Joel.png'},
+        {nombre: "Robot Lucas", rutaImagen: 'imagenes/Lucas.png'},
+        {nombre: "Robot Samuel", rutaImagen: 'imagenes/Samuel.png'},
+        {nombre: "Robot Sonia", rutaImagen: 'imagenes/Sonia.png'},
+        {nombre: "Robot Yago", rutaImagen: 'imagenes/Yago.png'},
+        {nombre: "Robot Zhijian", rutaImagen: 'imagenes/Zhijian.png'}
+      ];
+
+      var avataresManual = [...avatares];
+
+      function seleccionarPregunta() {
+        if (preguntas.length === 0) {
+          alert("No hay más preguntas disponibles");
+          return;
+        }
+        
+        var indexSeleccionado = Math.floor(Math.random() * preguntas.length);
+        var preguntaSeleccionada = preguntas[indexSeleccionado];
+        // Eliminar la pregunta seleccionada de la lista
+        preguntas.splice(indexSeleccionado, 1);
+
+        seleccionarElemento(preguntas, "pregunta-elegida", preguntaSeleccionada);
+      }
+
+      function seleccionarJugador() {
+        if (avatares.length === 0) {
+          alert("No hay más jugadores disponibles");
+          return;
+        }
+        
+        var indexSeleccionado = Math.floor(Math.random() * avatares.length);
+        var avatarSeleccionado = avatares[indexSeleccionado];
+
+        // Eliminar el jugador seleccionado de la lista
+        avatares.splice(indexSeleccionado, 1);
+
+        seleccionarElemento(avatares, "avatar-elegido", avatarSeleccionado, "nombre-avatar", avatarSeleccionado.nombre);
+      }
+
+      // Resto del código...
+
+
+      function seleccionarElemento(lista, idElemento, elementoSeleccionado, idNombre, nombreSeleccionado) {
+  var tiempoTotal = 8000;
+  var tiempoEntreCambios = 300;
+  var tiempoActual = 0;
+  var intervalo = setInterval(function() {
+    var elementoAleatorio = lista[Math.floor(Math.random() * lista.length)];
+    if (idNombre) {
+      document.getElementById(idElemento).innerHTML = '<img src="' + elementoAleatorio.rutaImagen + '" alt="' + elementoAleatorio.nombre + '" width="100" height="100">';
+      document.getElementById(idNombre).innerHTML = elementoAleatorio.nombre;
+    } else {
+      document.getElementById(idElemento).innerHTML = '<p style="font-size: 1.25em; text-align: justify; margin: 1em;">' + elementoAleatorio + '</p>'; // Cambiar el tamaño de fuente y agregar márgenes aquí
+    }
+
+    tiempoActual += tiempoEntreCambios;
+
+    // Cuando se llega al tiempo total, se destaca el elemento seleccionado
+    if (tiempoActual >= tiempoTotal) {
+      clearInterval(intervalo);
+      if (idNombre) {
+        document.getElementById(idElemento).innerHTML = '<img src="' + elementoSeleccionado.rutaImagen + '" alt="' + elementoSeleccionado.nombre + '" width="300" height="300">'; // Aumenta el tamaño de la imagen aquí
+        document.getElementById(idNombre).innerHTML = nombreSeleccionado.bold();
+      } else {
+        document.getElementById(idElemento).innerHTML = '<p style="font-size: 1.25em; text-align: justify; margin: 1em;">' + elementoSeleccionado.bold() + '</p>'; // Cambiar el tamaño de fuente y agregar márgenes aquí
+      }
+    }
+  }, tiempoEntreCambios);
+}
+
+
+function llenarSelect() {
+        var selectPregunta = document.getElementById("seleccionar-pregunta");
+        var selectJugador = document.getElementById("seleccionar-jugador");
+
+        preguntas.forEach(function (pregunta, index) {
+          var option = document.createElement("option");
+          option.value = index;
+          option.text = pregunta;
+          selectPregunta.add(option);
+        });
+
+        avatares.forEach(function (avatar, index) {
+          var option = document.createElement("option");
+          option.value = index;
+          option.text = avatar.nombre;
+          selectJugador.add(option);
+        });
+      }
+
+      // Actualizar la función mostrarPreguntaSeleccionada()
+      function mostrarPreguntaSeleccionada() {
+        var selectElement = document.getElementById("seleccionar-pregunta");
+        var preguntaSeleccionada = preguntasManual[selectElement.value];
+        if (preguntaSeleccionada) {
+          document.getElementById("pregunta-elegida").innerHTML = '<p style="font-size: 1.8em; text-align: justify; margin: 3em;">' + preguntaSeleccionada + '</p>';
+        }
+      }
+
+      // La función mostrarJugadorSeleccionado() permanece igual
+      function mostrarJugadorSeleccionado() {
+        var selectElement = document.getElementById("seleccionar-jugador");
+        var jugadorSeleccionado = avataresManual[selectElement.value];
+        if (jugadorSeleccionado) {
+          document.getElementById("avatar-elegido").innerHTML = '<img src="' + jugadorSeleccionado.rutaImagen + '" alt="' + jugadorSeleccionado.nombre + '" width="100" height="100">';
+          document.getElementById("nombre-avatar").innerHTML = jugadorSeleccionado.nombre;
+        }
+      }
+
+
+      document.getElementById("botonB").addEventListener("click", function() {
+    window.open("temporizador.html", "_blank", "width=800, height=600");
+  });
+      // Llamar a la función para llenar el menú desplegable
+      llenarSelect();
+
+      function agregarOpcionesSelect(lista, idElemento) {
+  var selectElement = document.getElementById(idElemento);
+  lista.forEach(function (item, index) {
+    var option = document.createElement("option");
+    option.value = index;
+    option.text = item;
+    selectElement.add(option);
+  });
+}
+
+function mostrarPreguntaSeleccionada() {
+  var selectElement = document.getElementById("seleccionar-pregunta");
+  var preguntaSeleccionada = preguntasManual[selectElement.value];
+  if (preguntaSeleccionada) {
+    document.getElementById("pregunta-elegida").innerHTML = '<p style="font-size: 1.8em; text-align: justify; margin: 3em;">' + preguntaSeleccionada + '</p>';
+  }
+}
+
+function mostrarJugadorSeleccionado() {
+  var selectElement = document.getElementById("seleccionar-jugador");
+  var jugadorSeleccionado = avataresManual[selectElement.value];
+  if (jugadorSeleccionado) {
+    document.getElementById("avatar-elegido").innerHTML = '<img src="' + jugadorSeleccionado.rutaImagen + '" alt="' + jugadorSeleccionado.nombre + '" width="100" height="100">';
+    document.getElementById("nombre-avatar").innerHTML = jugadorSeleccionado.nombre;
+  }
+}
+
+// Inicializar los elementos <select> con las preguntas y los jugadores
+agregarOpcionesSelect(preguntasManual, "seleccionar-pregunta");
+agregarOpcionesSelect(avataresManual.map(function (avatar) { return avatar.nombre; }), "seleccionar-jugador");
+
+
+</script>
+</body>
+</html>

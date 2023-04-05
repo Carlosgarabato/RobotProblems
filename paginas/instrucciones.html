@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: monospace;
+            background-color: black;
+            color: lime;
+            white-space: pre;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding-top: 30px;
+        }
+
+        .highlight {
+        color: red;
+    </style>
+    <title>RoboVigoWars</title>
+</head>
+<body>
+    <div class="container" id="content">
+    </div>
+    <script>
+        const text = `**RoboVigoWars: <span class="highlight">La Batalla Algebraica</span>**
+
+┌────────────────────────────────────────┐
+│             <span class="highlight">INFORMACIÓN GENERAL</span>        │
+├────────────────────────────────────────┤
+│ Año: <span class="highlight">2052</span>                              │
+│ Lugar: <span class="highlight">Viejo instituto Santa Irene</span>     │
+│ Objetivo: <span class="highlight">Recuperar el control de Vigo</span> │
+│ Pilotos restantes: <span class="highlight">10</span>                  │
+└────────────────────────────────────────┘
+
+**<span class="highlight">Objetivo del juego</span>**
+
+        Ayudar a los robots a luchar contra el ejército androide 
+        resolviendo problemas usando ecuaciones de primer grado con una incógnita.
+
+        ┌────────────────────────────────────────┐
+        │            <span class="highlight">REGLAS DE LA BATALLA</span>        │
+        ├────────────────────────────────────────┤
+        │ 1. <span class="highlight">Definir</span> la incógnita del problema.  │
+        │ 2. <span class="highlight">Resolver</span> y <span class="highlight">comprobar</span> el valor de    │
+        │    la incógnita.                       │
+        │ 3. Pedir <span class="highlight">apoyo</span> o usar <span class="highlight">trucos</span>.          │
+        │ 4. Sumar <span class="highlight">puntos totales y comodín</span>.     │
+        └────────────────────────────────────────┘
+
+
+        **Tipos de puntos**
+
+        ┌────────────────────────────────────────┐
+        │               <span class="highlight">PUNTOS TOTALES</span>           │
+        ├────────────────────────────────────────┤
+        │ <span class="highlight">+1/2</span> punto: Definir <span class="highlight">incógnita</span>          │
+        │ <span class="highlight">+1/2</span> punto: Plantear la <span class="highlight">ecuación</span>       │
+        │ <span class="highlight">+1</span> punto: Resolver el <span class="highlight">problema completo</span>│
+        └────────────────────────────────────────┘
+
+        ┌────────────────────────────────────────┐
+        │               <span class="highlight">PUNTOS COMODÍN</span>           │
+        ├────────────────────────────────────────┤
+        │ +5 puntos: Inicio de la partida        │
+        │ <span class="highlight">+1</span> punto: Dar <span class="highlight">apoyo</span> en la resolución   │
+        └────────────────────────────────────────┘
+
+
+        **Comodines**
+
+        ┌────────────────────────────────────────┐
+        │       <span class="highlight">COMODÍN</span>: REGLA DE LA SUMA/RESTA  │
+        ├────────────────────────────────────────┤
+        │ Eliminar monomios o términos indepen-  │
+        │ dientes en un miembro.                 │
+        │                                        │
+        │ Costo: <span class="highlight">-1/2</span> punto comodín.             │
+        └────────────────────────────────────────┘
+
+        ┌────────────────────────────────────────┐
+        │  <span class="highlight">COMODÍN</span>: REGLA DEL PRODUCTO/          │
+        │              DIVISION                  │ 
+        ├────────────────────────────────────────┤
+        │ Eliminar el coeficiente de la incógnita│
+        │                                        │
+        │ Costo: <span class="highlight">-1/2</span> punto comodín.             │
+        └────────────────────────────────────────┘
+
+
+        **Procedimiento**
+
+        ┌────────────────────────────────────────┐
+        │         <span class="highlight">¡ÚNETE A LA BATALLA!</span>           │
+        ├────────────────────────────────────────┤
+        │ 1. <span class="highlight">Elegir</span> al jugador que participará.  │
+        │ 2. <span class="highlight">Resolver</span> ecuaciones e incógnitas    │
+        │ 3. <span class="highlight">Pedir</span> ayuda o usar trucos si es     │
+        │    necesario.                          │
+        │ 4. <span class="highlight">Sumar</span> puntos totales y comodín.     │
+        │ 5. <span class="highlight">Establecer</span> ranking de pilotos.      │
+        └────────────────────────────────────────┘
+
+
+        **¡Pon a prueba tus habilidades algebraicas y ayuda a los robots! 
+        ¡vamos a recuperar el control de la ciudad de Vigo!**`;
+
+        const contentElement = document.getElementById('content');
+        let currentText = '';
+        let index = 0;
+
+        function typeWriter() {
+    if (index < text.length) {
+        if (text[index] === "<") {
+            let tag = "";
+            while (text[index] !== ">") {
+                tag += text[index];
+                index++;
+            }
+            tag += text[index];
+            currentText += tag;
+            index++;
+        } else {
+            currentText += text[index];
+            index++;
+        }
+        contentElement.innerHTML = currentText;
+        setTimeout(typeWriter, 10);
+    }
+}
+
+
+        typeWriter();
+    </script>
+</body>
+</html>
